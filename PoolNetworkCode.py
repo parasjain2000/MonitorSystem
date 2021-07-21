@@ -15,6 +15,7 @@ class NetworkElement(object):
         APN_list = []
 
     def Login(self):
+        pass
 
     def ExecuteCLI(self, CLI):
         self.Login()
@@ -25,13 +26,14 @@ class AccessPoint(object):
     def __init__(self, name):
         self.name = name
     
-    Def UpdateState(self, State):
+    def UpdateState(self, State):
          Self.state = state 
 
 class MonitorElement(object):
     def __init__(self, name):
         self.name = name
 
-    Def SetAlarm(NEID, APN):
-      
-    Def ClearAlarm(NEID, APN):
+    def SetAlarm(NEID, APN):
+        pass
+    def ClearAlarm(NEID, APN):
+        pass
