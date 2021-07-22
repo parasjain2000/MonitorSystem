@@ -45,7 +45,7 @@ class AccessPoint(object):
         self.name = name
     
     def UpdateState(self, State):
-         Self.state = state 
+         self.state = state 
 
 class MonitorElement(object):
     def __init__(self, name):
