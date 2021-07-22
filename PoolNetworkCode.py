@@ -22,7 +22,7 @@ class NetworkElement(object):
     def __init__(self, name):
         self.name = name
         self._password = "admin"
-        APN_list = []
+        self.APN_list = []
 
     def Login(self):
         if input("Password: ") == self._password:
