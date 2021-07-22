@@ -13,6 +13,9 @@ class Pool(object):
     def DelNetworkElementInPool(self, NEID):
         if NEID in self._NE_list:
             del self._NE_list[self._NE_list.index(NEID)]
+        
+        else:
+            print("Network Element not in pool")
     
     def ShowNetworkElementsInPool(self):
         for NE in self._NE_list:
