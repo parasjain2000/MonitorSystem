@@ -1,18 +1,22 @@
 class Pool(object):
     def __init__(self, name):
         self.name = name
-        self.NE_list = []
+        self._NE_list = []
 
     def AddNetworkElementInPool(self, NEID):
-        if NEID in self.NE_list:
+        if NEID in self._NE_list:
             print("Network element already in pool.")
             
         else:
-            self.NE_list.append(NEID)
+            self._NE_list.append(NEID)
 
     def DelNetworkElementInPool(self, NEID):
-        if NEID in self.NE_list:
-            del self.NE_list[self.NE_list.index(NEID)]
+        if NEID in self._NE_list:
+            del self._NE_list[self._NE_list.index(NEID)]
+    
+    def ShowNetworkElementsInPool(self):
+        for NE in self.NE_list:
+            print("NE.name")
 
 class NetworkElement(object):
     def __init__(self, name):
