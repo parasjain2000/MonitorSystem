@@ -4,24 +4,38 @@ class Pool(object):
         self.NE_list = []
 
     def AddNetworkElementInPool(self, NEID):
-        self.NE_List.append(NEID)
+        if NEID in self.NE_list:
+            print("Network element already in pool.")
+            
+        else:
+            self.NE_list.append(NEID)
 
     def DelNetworkElementInPool(self, NEID):
-        pass 
+        if NEID in self.NE_list:
+            del self.NE_list[self.NE_list.index(NEID)]
 
 class NetworkElement(object):
     def __init__(self, name):
         self.name = name
+        self._password = "admin"
         APN_list = []
 
     def Login(self):
-        pass
+        if input("Password: ") == self._password:
+            return True
+        
+        return False
 
+    def changePassword(self, old_password, new_password):
+        if old_password == self._password:
+            self._password = new_password
+        
+        else:
+            print("Access denied")
+            
     def ExecuteCLI(self, CLI):
         self.Login()
-
-  
-  
+        
 class AccessPoint(object):
     def __init__(self, name):
         self.name = name
