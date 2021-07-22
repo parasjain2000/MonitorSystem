@@ -15,7 +15,7 @@ class Pool(object):
             del self._NE_list[self._NE_list.index(NEID)]
     
     def ShowNetworkElementsInPool(self):
-        for NE in self.NE_list:
+        for NE in self._NE_list:
             print("NE.name")
 
 class NetworkElement(object):
