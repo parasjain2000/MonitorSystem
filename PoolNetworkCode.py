@@ -41,7 +41,7 @@ class Pool(object):
         for NE in self._NE_list:
             print(NE.name + ',', end= '')
         #for new line 
-        print('')    
+        print('\n')    
 
 class NetworkElement(object):
     def __init__(self, name):
@@ -84,7 +84,7 @@ class NetworkElement(object):
                 if NE != self:
                     print(NE.name + ',', end= '')
             #for new line 
-            print('')   
+            print('\n')   
             
     def AssociateAPN(self, APN):
         if APN in self._APN_list:
