@@ -127,14 +127,51 @@ class MonitorElement(object):
                 NE.down_APNs.pop([NEID, APN])
 
 def main():
-    NE1=NetworkElement("NE1")
-    NE2=NetworkElement("NE2")
+    NE1 = NetworkElement("NE1")
+    NE2 = NetworkElement("NE2")
+    NE3 = NetworkElement("NE3")
+    NE4 = NetworkElement("NE4")
+    NE5 = NetworkElement("NE5")
+    NE6 = NetworkElement("NE6")
+    
     Pool1 = Pool("Pool1")
+    Pool2 = Pool("Pool2")
+    Pool3 = Pool("Pool3")
+    
+    APN1 = AccessPoint("fastinternet.com")
+    APN2 = AccessPoint("greatservice.com")
+    APN3 = AccessPoint("provider.org")
+    
+    Monitor = MonitorElement("Monitoring Element")
+    
     Pool1.AddNetworkElementInPool(NE1)
-    Pool1.AddNetworkElementInPool(NE1)
-    #Pool1.ShowNetworkElementsInPool()
-    #NE1.ShowDetails()
-    #NE2.ShowDetails()
+    Pool1.AddNetworkElementInPool(NE3)
+    
+    Pool2.AddNetworkElementInPool(NE5)
+    
+    Pool3.AddNetworkElementInPool(NE2)
+    Pool3.AddNetworkElementInPool(NE4)
+    Pool3.AddNetworkElementInPool(NE6)
+    
+    NE1.AssociateAPN(APN1)
+    NE3.AssociateAPN(APN1)
+    
+    NE5.AssociateAPN(APN2)
+    
+    NE2.AssociateAPN(APN3)
+    NE4.AssociateAPN(APN3)
+    NE6.AssociateAPN(APN3)
+    
+    Pool1.ShowNetworkElementsInPool()
+    Pool2.ShowNetworkElementsInPool()
+    Pool3.ShowNetworkElementsInPool()
+    
+    NE1.ShowDetails()
+    NE2.ShowDetails()
+    NE3.ShowDetails()
+    NE4.ShowDetails()
+    NE5.ShowDetails()
+    NE6.ShowDetails()
 
 
 if __name__ == '__main__':
