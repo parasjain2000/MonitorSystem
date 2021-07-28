@@ -71,7 +71,7 @@ class NetworkElement(object):
         
     def ShowDetails(self):
         #shows details of NE, poolID, neighbor NE in same pool
-        print("NE-Name  :" + self.name)
+        print("NE-Name : " + self.name)
         
         if self.poolID == None:
             print("Not associated with a pool.")
@@ -79,7 +79,7 @@ class NetworkElement(object):
         else:
             poolID = self.poolID
             print("Pool ID: " + poolID.name)
-            print('Neighbour NEs : ', end='')
+            print('Neighbour NEs: ', end='')
             for NE in poolID._NE_list:
                 if NE != self:
                     print(NE.name + ',', end= '')
