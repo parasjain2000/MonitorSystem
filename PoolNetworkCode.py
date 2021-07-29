@@ -3,7 +3,7 @@ class Pool(object):
         self.name = name
         self._NE_list = []
 
-    def AddNetworkElementInPool(self, NEID: NetworkElement) -> int:
+    def AddNetworkElementInPool(self, NEID) -> int:
         '''Adds a network element to the pool.
         
         If the addition is successful, returns 0. If the network element is already in the pool, returns -1.
@@ -21,7 +21,7 @@ class Pool(object):
 
         return 0
         
-    def DelNetworkElementInPool(self, NEID: NetworkElement) -> int:
+    def DelNetworkElementInPool(self, NEID) -> int:
         '''Deletes a network element from the pool.
         
         If the deletion is successful, returns 0. If the network element is not present in the pool to begin with, returns -1.
@@ -110,7 +110,7 @@ class NetworkElement(object):
         
         
             
-    def AssociateAPN(self, APN: AccessPoint) -> int:
+    def AssociateAPN(self, APN) -> int:
         '''Associates the network element with an access point.
         
         If the association is successful, returns 0. If the access point is already assocciated, returns -1.
@@ -125,7 +125,7 @@ class NetworkElement(object):
         self._APN_list.append(APN)
         return 0
          
-    def DissociateAPN(self, APN: AccessPoint) -> int:
+    def DissociateAPN(self, APN) -> int:
         '''Dissociates the network element with an access point.
         
         If the dissociation is successful, returns 0. If the access point is not already assocciated, returns -1.
