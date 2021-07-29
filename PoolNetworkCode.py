@@ -147,11 +147,17 @@ class MonitorElement(object):
         self.name = name
 
     def SetAlarm(NEID: NetworkElement, APN: AccessPoint) -> None:
+        '''Tells all the other network elements in the pool that this network element has reported this access point as down.'''
+        
+        #Log in to other network elements in pool and make note that this network element has reported this access point as down.
         for NE in NEID.poolID._NE_list:
             if NE != NEID and NE.Login():
                 NE.down_APNs.append([NEID, APN])
     
     def ClearAlarm(NEID: NetworkElement, APN: AccessPoint) -> None:
+        '''Removes the notice sent by "MonitorElement.SetAlarm".'''
+        
+        #Log in to other network elements in pool and remove notice that this network element has reported this access point as down.
         for NE in NEID.poolID._NE_list:
             if NE != NEID and NE.Login():
                 NE.down_APNs.pop([NEID, APN])
