@@ -1,51 +1,6 @@
-class Pool(object):
+class AccessPoint(object):
     def __init__(self, name: str):
         self.name = name
-        self._NE_list = []
-
-    def AddNetworkElementInPool(self, NEID) -> int:
-        '''Adds a network element to the pool.
-        
-        If the addition is successful, returns 0. If the network element is already in the pool, returns -1.
-        '''
-        #If the network element is already in the pool, print a message alerting the user.
-        if NEID in self._NE_list:
-            print("Network element {} already in pool {}.".format(NEID.name, self.name))
-            return -1
-        
-        #Add the NE to the Pool
-        self._NE_list.append(NEID)
-
-        #Associate the Pool with the network element for easy access.
-        NEID.poolID = self
-
-        return 0
-        
-    def DelNetworkElementInPool(self, NEID) -> int:
-        '''Deletes a network element from the pool.
-        
-        If the deletion is successful, returns 0. If the network element is not present in the pool to begin with, returns -1.
-        '''
-        
-        #If the network element is in the pool, disassociates the network element from the pool.
-        if NEID in self._NE_list:
-            NEID.poolID = None
-            del self._NE_list[self._NE_list.index(NEID)]
-            return 0
-        
-        #Alerts the user if the network element is not in the pool.
-        print("Network Element {} not in pool {}".format(NEID.name, self.name))
-        return -1
-
-    def ShowNetworkElementsInPool(self) -> None:
-        '''Displays the poolID and all the network elements in the pool.'''
-        
-        print("Pool ID: " + self.name)
-        print('NEs in Pool: ', end='')
-        for NE in self._NE_list:
-            print(NE.name + ',', end= '')
-        #for new line 
-        print('\n')    
 
 class NetworkElement(object):
     def __init__(self, name: str):
@@ -98,19 +53,16 @@ class NetworkElement(object):
             print("Not associated with a pool.")
             
         else:
-            poolID = self.poolID
-            print("Pool ID: " + poolID.name)
+            print("Pool ID: " + self.poolID.name)
             print('Neighbour NEs: ', end='')
-            for NE in poolID._NE_list:
+            for NE in self.poolID._NE_list:
                 if NE != self:
                     print(NE.name + ',', end= '')
                     
             #For new line.
             print('\n')
         
-        
-            
-    def AssociateAPN(self, APN) -> int:
+    def AssociateAPN(self, APN: AccessPoint) -> int:
         '''Associates the network element with an access point.
         
         If the association is successful, returns 0. If the access point is already assocciated, returns -1.
@@ -125,22 +77,70 @@ class NetworkElement(object):
         self._APN_list.append(APN)
         return 0
          
-    def DissociateAPN(self, APN) -> int:
+    def DissociateAPN(self, APN: AccessPoint) -> int:
         '''Dissociates the network element with an access point.
         
         If the dissociation is successful, returns 0. If the access point is not already assocciated, returns -1.
         '''
         
+        #Dissociates the access point if it is associated.
         if APN in self._APN_list:
             self._APN_list.remove(APN)
             return 0
 
+        #Alerts the user if the access point is not already associated with the pool.
         print("APN {} not associated with NE {}".format(APN.name, NE.name))
         return -1
-
-class AccessPoint(object):
+    
+class Pool(object):
     def __init__(self, name: str):
         self.name = name
+        self._NE_list = []
+
+    def AddNetworkElementInPool(self, NEID: NetworkElement) -> int:
+        '''Adds a network element to the pool.
+        
+        If the addition is successful, returns 0. If the network element is already in the pool, returns -1.
+        '''
+        #If the network element is already in the pool, print a message alerting the user.
+        if NEID in self._NE_list:
+            print("Network element {} already in pool {}.".format(NEID.name, self.name))
+            return -1
+        
+        #Add the NE to the Pool
+        self._NE_list.append(NEID)
+
+        #Associate the Pool with the network element for easy access.
+        NEID.poolID = self
+
+        return 0
+        
+    def DelNetworkElementInPool(self, NEID: NetworkElement) -> int:
+        '''Deletes a network element from the pool.
+        
+        If the deletion is successful, returns 0. If the network element is not present in the pool to begin with, returns -1.
+        '''
+        
+        #If the network element is in the pool, disassociates the network element from the pool.
+        if NEID in self._NE_list:
+            NEID.poolID = None
+            del self._NE_list[self._NE_list.index(NEID)]
+            return 0
+        
+        #Alerts the user if the network element is not in the pool.
+        print("Network Element {} not in pool {}".format(NEID.name, self.name))
+        return -1
+
+    def ShowNetworkElementsInPool(self) -> None:
+        '''Displays the poolID and all the network elements in the pool.'''
+        
+        print("Pool ID: " + self.name)
+        print('NEs in Pool: ', end='')
+        for NE in self._NE_list:
+            print(NE.name + ',', end= '')
+        
+        #For new line 
+        print('\n')    
 
 class MonitorElement(object):
     def __init__(self, name: str):
