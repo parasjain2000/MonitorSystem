@@ -1,6 +1,10 @@
+import sys
+VERBOSE = 0
+
 class AccessPoint(object):
     def __init__(self, name: str):
         self.name = name
+        print_verbose("Created APN: {}".format(name))
 
 class NetworkElement(object):
     def __init__(self, name: str):
@@ -9,6 +13,7 @@ class NetworkElement(object):
         self.poolID = None
         self._APN_list = []
         self.down_APNs = []
+        print_verbose("Created NE: {}".format(name))
 
     def Login(self, password: str) -> bool:
         '''Returns "True" if the correct password is inputted, and returns "False" otherwise.
@@ -75,6 +80,7 @@ class NetworkElement(object):
 
         #Associates the access point to the network element.
         self._APN_list.append(APN)
+        print_verbose("Associating NE {} to APN {}".format(self.name, APN.name))
         return 0
          
     def DissociateAPN(self, APN: AccessPoint) -> int:
@@ -85,6 +91,7 @@ class NetworkElement(object):
         
         #Dissociates the access point if it is associated.
         if APN in self._APN_list:
+            print_verbose("Disssociating NE {} to APN {}".format(self.name, APN.name))
             self._APN_list.remove(APN)
             return 0
 
@@ -96,6 +103,7 @@ class Pool(object):
     def __init__(self, name: str):
         self.name = name
         self._NE_list = []
+        print_verbose("Created Pool : {}".format(name))
 
     def AddNetworkElementInPool(self, NEID: NetworkElement) -> int:
         '''Adds a network element to the pool.
@@ -109,6 +117,7 @@ class Pool(object):
         
         #Add the NE to the Pool
         self._NE_list.append(NEID)
+        print_verbose("Associating NE {} to Pool {}".format(NEID.name, self.name))
 
         #Associate the Pool with the network element for easy access.
         NEID.poolID = self
@@ -145,41 +154,67 @@ class Pool(object):
 class MonitorElement(object):
     def __init__(self, name: str):
         self.name = name
+        print_verbose("Created Monitoring System: {}".format(name))
 
-    def SetAlarm(NEID: NetworkElement, APN: AccessPoint) -> None:
+    def SetAlarm(self, NEID: NetworkElement, APN: AccessPoint) -> None:
         '''Tells all the other network elements in the pool that this network element has reported this access point as down.'''
         
+        print_verbose("Set Alarm from NE {} for APN {}..".format(NEID.name, APN.name))
         #Log in to other network elements in pool and make note that this network element has reported this access point as down.
         for NE in NEID.poolID._NE_list:
-            if NE != NEID and NE.Login():
+            if NE != NEID and NE.Login("admin"):
+                print_verbose("Login to NE {} to SET (NE: {}, APN {})..".format(NE.name, NEID.name, APN.name))
                 NE.down_APNs.append([NEID, APN])
+        print_verbose("DONE...................\n\n")
     
-    def ClearAlarm(NEID: NetworkElement, APN: AccessPoint) -> None:
+    def ClearAlarm(self, NEID: NetworkElement, APN: AccessPoint) -> None:
         '''Removes the notice sent by "MonitorElement.SetAlarm".'''
         
+        print_verbose("Clear Alarm from NE {} for APN {}..".format(NEID.name, APN.name))
         #Log in to other network elements in pool and remove notice that this network element has reported this access point as down.
         for NE in NEID.poolID._NE_list:
-            if NE != NEID and NE.Login():
+            if NE != NEID and NE.Login("admin"):
+                print_verbose("Login to NE {} to CLEAR (NE: {}, APN {})..".format(NE.name, NEID.name, APN.name))
                 NE.down_APNs.pop([NEID, APN])
+        print_verbose("DONE...................\n\n")
+
+def print_verbose(info):
+    if VERBOSE == 1:
+        print(info)
 
 def main():
+    global VERBOSE
+    if len(sys.argv) == 2:
+        args = sys.argv[1:]
+        option = args[0]
+        if option == '-v':
+            VERBOSE=1
+
+    print_verbose("Creating NE's 1 to 6...")
     NE1 = NetworkElement("NE1")
     NE2 = NetworkElement("NE2")
     NE3 = NetworkElement("NE3")
     NE4 = NetworkElement("NE4")
     NE5 = NetworkElement("NE5")
     NE6 = NetworkElement("NE6")
-    
+    print_verbose("DONE...................\n\n")
+   
+    print_verbose("Creating NE's 1 to 5...")
     Pool1 = Pool("Pool1")
     Pool2 = Pool("Pool2")
     Pool3 = Pool("Pool3")
+    print_verbose("DONE...................\n\n")
     
+    print_verbose("Creating APNs...")
     APN1 = AccessPoint("fastinternet.com")
     APN2 = AccessPoint("greatservice.com")
     APN3 = AccessPoint("provider.org")
+    print_verbose("DONE...................\n\n")
     
     Monitor = MonitorElement("Monitoring Element")
+    print_verbose("DONE...................\n\n")
     
+    print_verbose("Creating Associations...")
     Pool1.AddNetworkElementInPool(NE1)
     Pool1.AddNetworkElementInPool(NE3)
     
@@ -197,17 +232,25 @@ def main():
     NE2.AssociateAPN(APN3)
     NE4.AssociateAPN(APN3)
     NE6.AssociateAPN(APN3)
+    print_verbose("DONE...................\n\n")
     
+    Monitor.SetAlarm(NE1, APN1)
+    Monitor.SetAlarm(NE2, APN1)
+    #Monitor.ClearAlarm(NE1, APN1)
+
+    '''
     Pool1.ShowNetworkElementsInPool()
     Pool2.ShowNetworkElementsInPool()
     Pool3.ShowNetworkElementsInPool()
-    
+   
     NE1.ShowDetails()
     NE2.ShowDetails()
     NE3.ShowDetails()
     NE4.ShowDetails()
     NE5.ShowDetails()
     NE6.ShowDetails()
+    '''
+
 
 if __name__ == '__main__':
     main()
