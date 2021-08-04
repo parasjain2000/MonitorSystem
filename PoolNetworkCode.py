@@ -339,16 +339,16 @@ def main():
     Monitor.SetAlarm(NE3, APN1)
     Monitor.SetAlarm(NE1, APN1)
     
-    Pool1.ShowNetworkElementsInPool()
-    Pool2.ShowNetworkElementsInPool()
-    Pool3.ShowNetworkElementsInPool()
+    Pool1.ShowNetworkElementsInPool('')
+    Pool2.ShowNetworkElementsInPool('')
+    Pool3.ShowNetworkElementsInPool('')
    
-    NE1.ShowDetails()
-    NE2.ShowDetails()
-    NE3.ShowDetails()
-    NE4.ShowDetails()
-    NE5.ShowDetails()
-    NE6.ShowDetails()
+    NE1.ShowDetails('')
+    NE2.ShowDetails('')
+    NE3.ShowDetails('')
+    NE4.ShowDetails('')
+    NE5.ShowDetails('')
+    NE6.ShowDetails('')
     
 if __name__ == '__main__':
     main()
