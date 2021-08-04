@@ -257,7 +257,7 @@ class MonitorElement(object):
         for NE in NEID.poolID._NE_list:
             if NE != NEID and NE.Login("admin"):
                 print_verbose("Login to NE {} to CLEAR (NE: {}, APN {})..".format(NE.name, NEID.name, APN.name))
-                NE.down_APNs.remove(NEID.name+"+"+APN.name)
+                NE.down_APNs.remove([NEID, APN])
         print_verbose("DONE...................\n\n")
 
 
