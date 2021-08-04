@@ -190,14 +190,14 @@ class MonitorElement(object):
     def __init__(self, name: str, pools):
         self.name = name
         self.pools = pools
-        print_verbose("Creating Monitoring System: {}".format(name))
+        print_verbose("Created Monitoring System: {}".format(name))
 
     def SetAlarm(self, NEID: NetworkElement, APN: AccessPoint) -> None:
         '''Tells all the other network elements in the pool that this network element has reported this access point as down.'''
         
         print_verbose("Set Alarm from NE {} for APN {}..".format(NEID.name, APN.name))
         pool = NEID.poolID
-        if type(NEID) != NetworkElement or type(APN) != AccessPoint or type(pool) != Pool:
+        if NEID == None or APN == None or pool == None:
             print_fail("Invalid arguments NEID {}, APN {}, pool {}".format(NEID, APN, pool))
             return -1
 
@@ -281,9 +281,9 @@ def main():
         args = sys.argv[1:]
         option = args[0]
         if option == '-v':
-            VERBOSE = 1
+            VERBOSE=1
 
-    print_verbose("Creating NE's 1 to 6...")
+    print_verbose("Creating Network Elements...")
     NE1 = NetworkElement("NE1")
     NE2 = NetworkElement("NE2")
     NE3 = NetworkElement("NE3")
@@ -292,7 +292,7 @@ def main():
     NE6 = NetworkElement("NE6")
     print_verbose("DONE...................\n\n")
    
-    print_verbose("Creating NE's 1 to 5...")
+    print_verbose("Creating Pools...")
     Pool1 = Pool("Pool1")
     Pool2 = Pool("Pool2")
     Pool3 = Pool("Pool3")
@@ -338,17 +338,20 @@ def main():
     Monitor.ClearAlarm(NE1, APN1)
     Monitor.SetAlarm(NE3, APN1)
     Monitor.SetAlarm(NE1, APN1)
-    
-    Pool1.ShowNetworkElementsInPool('')
-    Pool2.ShowNetworkElementsInPool('')
-    Pool3.ShowNetworkElementsInPool('')
+
+    '''
+    Pool1.ShowNetworkElementsInPool()
+    Pool2.ShowNetworkElementsInPool()
+    Pool3.ShowNetworkElementsInPool()
    
-    NE1.ShowDetails('')
-    NE2.ShowDetails('')
-    NE3.ShowDetails('')
-    NE4.ShowDetails('')
-    NE5.ShowDetails('')
-    NE6.ShowDetails('')
-    
+    NE1.ShowDetails()
+    NE2.ShowDetails()
+    NE3.ShowDetails()
+    NE4.ShowDetails()
+    NE5.ShowDetails()
+    NE6.ShowDetails()
+    '''
+
+
 if __name__ == '__main__':
     main()
