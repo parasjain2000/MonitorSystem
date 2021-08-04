@@ -190,14 +190,14 @@ class MonitorElement(object):
     def __init__(self, name: str, pools):
         self.name = name
         self.pools = pools
-        print_verbose("Created Monitoring System: {}".format(name))
+        print_verbose("Creating Monitoring System: {}".format(name))
 
     def SetAlarm(self, NEID: NetworkElement, APN: AccessPoint) -> None:
         '''Tells all the other network elements in the pool that this network element has reported this access point as down.'''
         
         print_verbose("Set Alarm from NE {} for APN {}..".format(NEID.name, APN.name))
         pool = NEID.poolID
-        if NEID == None or APN == None or pool == None:
+        if type(NEID) != NetworkElement or type(APN) != AccessPoint or type(pool) != Pool:
             print_fail("Invalid arguments NEID {}, APN {}, pool {}".format(NEID, APN, pool))
             return -1
 
@@ -257,7 +257,7 @@ class MonitorElement(object):
         for NE in NEID.poolID._NE_list:
             if NE != NEID and NE.Login("admin"):
                 print_verbose("Login to NE {} to CLEAR (NE: {}, APN {})..".format(NE.name, NEID.name, APN.name))
-                NE.down_APNs.remove([NEID, APN])
+                NE.down_APNs.remove(NEID.name+"+"+APN.name)
         print_verbose("DONE...................\n\n")
 
 
@@ -281,7 +281,7 @@ def main():
         args = sys.argv[1:]
         option = args[0]
         if option == '-v':
-            VERBOSE=1
+            VERBOSE = 1
 
     print_verbose("Creating NE's 1 to 6...")
     NE1 = NetworkElement("NE1")
@@ -336,8 +336,8 @@ def main():
     Monitor.SetAlarm(NE5, APN1)
     Monitor.SetAlarm(NE2, APN1)
     Monitor.ClearAlarm(NE1, APN1)
-    Monitor.SetAlarm(NE3, APN1)
-    Monitor.SetAlarm(NE1, APN1)
+    '''Monitor.SetAlarm(NE3, APN1)
+    Monitor.SetAlarm(NE1, APN1)'''
 
     '''
     Pool1.ShowNetworkElementsInPool()
